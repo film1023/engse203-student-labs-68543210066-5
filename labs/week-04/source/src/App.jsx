@@ -1,126 +1,70 @@
 import { useState } from 'react';
 import { initialTasks } from './data/initialTasks.js';
-
-// 1. เพิ่ม { title, subtitle } เพื่อรับค่า Props เข้ามาใช้งาน
-function AppHeader({ title, subtitle }) {
-  return (
-    <header className="hero">
-      <div className="container">
-        <p className="eyebrow">ENGSE203 • PRE-LAB 04 • CP02</p>
-        {/* นำตัวแปรที่รับมามาแสดงผลในเครื่องหมายปีกกา { } */}
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
-      </div>
-    </header>
-  );
-}
-
-// 3. เพิ่ม onDelete เข้ามาในตัวรับข้อมูล Props ของการ์ด
-function TaskCard({ task, onDelete }) {
-  return (
-    <div className="card">
-      <div className="card-body">
-        <h3 className="card-title">{task.title}</h3>
-        <p className="card-text">{task.description}</p>
-        <div className="card-actions">
-          <span className={`badge ${task.completed ? 'badge-success' : 'badge-warning'}`}>
-            {task.completed ? 'เสร็จสิ้น' : 'กำลังทำ'}
-          </span>
-          
-          {/* เพิ่มปุ่มกดลบที่จะทำงานส่ง ID กลับไปหาฟังก์ชันหลักตัวบน */}
-          <button 
-            className="btn btn-danger btn-sm" 
-            onClick={() => onDelete(task.id)}
-          >
-            ลบงาน
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 1. เพิ่ม Component สำหรับช่องพิมพ์เพิ่มงานใหม่
-function TaskEntryForm({ onAddTask }) {
-  const [title, setTitle] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim()) return; // ถ้าช่องพิมพ์ว่างเปล่า ไม่ให้กดส่งข้อมูล
-    
-    onAddTask(title); // ส่งชื่อที่พิมพ์กลับไปหาฟังก์ชันหลักด้านล่าง
-    setTitle(''); // ล้างช่องพิมพ์ให้กลับมาว่างเปล่าหลังกดเพิ่มงานสำเร็จ
-  };
-
-  // แก้ตรงส่วน return ของฟังก์ชัน TaskEntryForm ให้มี label ผูกเข้ากับ input
-return (
-  <form className="card mb-4" onSubmit={handleSubmit}>
-    <div className="card-body">
-      {/* 1. เพิ่ม Label และผูก id/htmlFor เข้าหากัน */}
-      <label htmlFor="task-title-input" className="form-label font-bold mb-2 block">
-        เพิ่มงานใหม่
-      </label>
-      
-      <div className="input-group">
-        <input
-          id="task-title-input" // 2. ใส่ id ให้ตรงกับ htmlFor ด้านบน
-          type="text"
-          className="form-control"
-          placeholder="พิมพ์ชื่อเรื่องงานที่นี่..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          aria-required="true" // 3. เสริมความปลอดภัย/ความเข้าถึงง่าย
-        />
-        <button type="submit" className="btn btn-primary">
-          เพิ่มงาน
-        </button>
-      </div>
-    </div>
-  </form>
-);
-
-}
+import AppHeader from './components/AppHeader.jsx';
+import TaskCard from './components/TaskCard.jsx';         // 👈 เพิ่มบรรทัดนี้
+import TaskEntryForm from './components/TaskEntryForm.jsx'; // 👈 เพิ่มบรรทัดนี้
+import SummaryPanel from './components/SummaryPanel.jsx'; // 👈 เพิ่มบรรทัดนี้
+import FilterBar from './components/FilterBar.jsx';
+import TaskList from './components/TaskList.jsx';
 
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
+  const [filter, setFilter] = useState('all');
+  const filteredTasks = tasks.filter(task => {
+    if (filter === 'active') return !task.completed;
+    if (filter === 'completed') return task.completed;
+    return true; // 'all'
+  });
 
-  const handleDelete = (id) => {
-    const updatedTasks = tasks.filter(task => task.id !== id);
-    setTasks(updatedTasks);
+  const taskSummary = {
+    total: tasks.length,
+    doing: tasks.filter(t => !t.completed).length,
+    done: tasks.filter(t => t.completed).length
   };
 
-  // 2. เพิ่มฟังก์ชันสำหรับสร้างโครงสร้าง Object งานใหม่นำไปบวกเพิ่มใน State
+  const handleDelete = (id) => {
+    setTasks((currentTasks) => currentTasks.filter(task => task.id !== id));
+  };
+
   const handleAddTask = (title) => {
     const newTask = {
-      id: Date.now(), // ใช้เวลาปัจจุบันจำลองเป็น ID ที่ไม่ซ้ำกัน
+      id: `TASK-${Date.now()}`, 
       title: title,
-      description: 'งานที่เพิ่มขึ้นมาใหม่ในระบบ',
+      description: 'หมวดหมู่งานที่สร้างผ่านการตรวจเช็กและคัดกรองข้อมูล',
       completed: false
     };
-    setTasks([...tasks, newTask]); // นำชิ้นงานใหม่ไปต่อท้ายอาเรย์เดิมใน State
+    setTasks((currentTasks) => [...currentTasks, newTask]);
   };
 
   return (
     <>
-      <AppHeader title="Study Task Board (CP05)" subtitle="ระบบจัดการงานผ่าน Form และ Controlled Component" />
+      <AppHeader title="Study Task Board (CP05)" subtitle="ระบบจัดการงานผ่านไฟล์แยกโมดูลเรียบร้อย!" />
       <main className="container page-content">
         
-        {/* 3. เรียกใช้งานฟอร์มพิมพ์เพิ่มงาน และส่งฟังก์ชัน handleAddTask เข้าไปผ่าน Props */}
         <TaskEntryForm onAddTask={handleAddTask} />
-
+        <SummaryPanel summary={taskSummary} />
+        
         <div className="task-container">
-          <h2 className="section-title">รายการงานทั้งหมด ({tasks.length})</h2>
-          <div className="task-list">
-            {tasks.map((item) => (
-              <TaskCard key={item.id} task={item} onDelete={handleDelete} />
-            ))}
+          <div className="filter-bar" style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <label htmlFor="task-filter" style={{ fontWeight: 'bold' }}>🔍 ตัวกรอง:</label>
+            <select 
+              id="task-filter" 
+              value={filter} 
+              onChange={(e) => setFilter(e.target.value)}
+              style={{ padding: '0.25rem 0.5rem', borderRadius: '4px' }}
+            >
+              <option value="all">ทั้งหมด</option>
+              <option value="active">กำลังทำ</option>
+              <option value="completed">เสร็จสิ้น</option>
+            </select>
           </div>
+          <h2 className="section-title">
+            {filteredTasks.length === 1 ? 'พบ 1 รายการ' : `พบ ${filteredTasks.length} รายการ`}
+          </h2>
+          <TaskList tasks={filteredTasks} onDelete={handleDelete} />
         </div>
       </main>
     </>
   );
 }
-
-
 export default App;
-

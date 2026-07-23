@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Service Request</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Campus Service Request</h1>
+    </header>
+
+    <main class="container">
+        <!-- 1. ฝั่งกรอกฟอร์มคำร้อง -->
+        <section class="form-section">
+            <h2>สร้างคำร้องใหม่</h2>
+            <form id="requestForm" novalidate>
+                <div class="form-group">
+                    <label for="studentName">ชื่อ-นามสกุล:</label>
+                    <input type="text" id="studentName" name="studentName" required aria-describedby="nameError">
+                    <span id="nameError" class="error-msg" aria-live="polite"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="requestDetail">รายละเอียดคำร้อง:</label>
+                    <textarea id="requestDetail" name="requestDetail" required
+                        aria-describedby="detailError"></textarea> <span id="detailError" class="error-msg"
+                        aria-live="polite"></span>
+                </div>
+
+                <button type="submit">ส่งคำร้อง</button>
+            </form>
+        </section>
+
+        <!-- 2. ฝั่ง Live Preview และแสดงรายการทั้งหมด -->
+        <aside class="preview-section">
+            <h2>Live Preview</h2>
+            <div id="livePreview" class="preview-box">พิมพ์ข้อความเพื่อดูตัวอย่าง...</div>
+
+            <h2>รายการคำร้องทั้งหมด</h2>
+            <ul id="requestList">
+                <!-- ข้อมูลจะถูกเพิ่มเข้ามาด้วย JavaScript -->
+            </ul>
+        </aside>
+    </main>
+
+    <script type="module" src="./src/app.js"></script>
+</body>
+
+</html>

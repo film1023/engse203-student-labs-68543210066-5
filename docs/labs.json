@@ -34,8 +34,8 @@
   {
     "week": "week-03",
     "title": "Responsive Web UI & Form Interaction",
-    "status": "draft",
-    "sourceOrigin": "course-starter",
+    "status": "ready",
+    "sourceOrigin": "original-repository",
     "originalRepoUrl": "",
     "originalCommit": "",
     "pullRequestUrl": "",
@@ -50,17 +50,17 @@
   {
     "week": "week-04",
     "title": "React Campus Service Request",
-    "status": "draft",
+    "status": "ready",
     "sourceOrigin": "course-starter",
     "originalRepoUrl": "",
     "originalCommit": "",
     "pullRequestUrl": "",
     "submissionTag": "",
-    "testStatus": "not-tested",
+    "testStatus": "pass",
     "notes": "React/Vite build output ต้องอยู่ใน publish/ ก่อนสร้าง Pages Hub",
     "pageUrl": "https://film1023.github.io/engse203-student-labs-685432100665/labs/week-04/",
     "sourceUrl": "https://github.com/film1023/engse203-student-labs-685432100665/tree/lab/week-04/labs/week-04/source",
     "hasPublish": false,
-    "sourceEntries": 0
+    "sourceEntries": 10
   }
 ]

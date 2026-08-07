@@ -4,9 +4,9 @@
   "status": "ready",
   "sourceOrigin": "migrated-repository",
   "originalRepoUrl": "https://github.com/film1023/engse203-student-labs-68543210066-5/tree/main/labs/week-01/source",
-  "originalCommit": "a1b2c3d",
+  "originalCommit": "cfdf9f01",
   "pullRequestUrl": "https://github.com/film1023/engse203-student-labs-68543210066-5/pull/1",
-  "submissionTag": "",
+  "submissionTag": "lab-01-submission-v1",
   "testStatus": "pass",
   "notes": "LAB 1 ใช้ evidence report ได้โดยไม่ต้องมี web application"
 }

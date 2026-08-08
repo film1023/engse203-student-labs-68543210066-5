@@ -7,51 +7,47 @@ import RequestList from './components/RequestList.jsx';
 import { initialRequests } from './data/initialRequests.js';
 
 function App() {
-  // TODO LAB4-R04: เปลี่ยน requests/statusFilter เป็น state
+  // 1. นำโครงสร้าง useState ของคุณมาจัดการระบบคำร้องแจ้งซ่อม
   const [requests, setRequests] = useState(initialRequests);
   const [statusFilter, setStatusFilter] = useState('all');
 
-
-
-  // TODO LAB4-R04: คำนวณ summary เป็น derived data
+  // 2. ปรับสูตรนับสถิติของคุณให้แมตช์กับคำว่า pending, processing, completed เพื่อให้เลขดีดเป็น 1 ครับ
   const summary = {
     total: requests.length,
-    pending: requests.filter(r => r.status === 'pending').length,
-    inProgress: requests.filter(r => r.status === 'processing').length,
-    completed: requests.filter(r => r.status === 'completed').length,
+    pending: requests.filter((req) => req.status === 'pending').length,
+    inProgress: requests.filter((req) => req.status === 'processing').length,
+    completed: requests.filter((req) => req.status === 'completed').length,
   };
 
+  // 3. เงื่อนไขฟิลเตอร์กรองข้อมูลตามแท็บที่คุณกดเลือก
+  const filteredRequests = statusFilter === 'all' ? requests : requests.filter((req) => req.status === statusFilter);
 
-  // TODO LAB4-R08: คำนวณ filteredRequests จาก requests + statusFilter
-  const filteredRequests = requests;
-
+  // 4. ฟังก์ชันสำหรับกดปุ่ม "เพิ่มคำร้อง"
   function handleAddRequest(requestData) {
-    console.log('TODO add request', requestData);
+    const newRequest = { 
+      id: `REQ-${String(requests.length + 1).padStart(3, '0')}`, 
+      ...requestData, 
+      status: 'pending' // บังคับให้เป็นรอดำเนินการตอนเริ่มสร้าง
+    };
+    setRequests((currentRequests) => [...currentRequests, newRequest]);
   }
 
+  // 5. ฟังก์ชันสำหรับกดปุ่ม "ลบ" ข้อมูล
   function handleDeleteRequest(requestId) {
-    console.log('TODO delete request', requestId);
+    setRequests((currentRequests) => currentRequests.filter((req) => req.id !== requestId));
   }
 
   return (
     <>
-      <AppHeader
-        title="Campus Service Request"
-        subtitle="LAB 4 Starter — เปลี่ยน DOM-driven UI เป็น State-driven React UI"
-      />
+      <AppHeader title="Campus Service Request" subtitle="LAB 4 Starter — เปลี่ยน DOM-driven UI เป็น State-driven React UI" />
       <main className="container page-content">
         <SummaryPanel summary={summary} />
         <div className="workspace-grid">
+          {/* ผูกฟังก์ชันเข้ากับหน้าปุ่มกดของแล็บ 4 */}
           <RequestForm onAddRequest={handleAddRequest} />
-          <section className="panel" aria-labelledby="request-list-title">
-            <div className="section-heading">
-              <h2 id="request-list-title">รายการคำร้อง</h2>
-              <FilterBar value={statusFilter} onFilterChange={() => { }} />
-            </div>
-            <RequestList
-              requests={filteredRequests}
-              onDeleteRequest={handleDeleteRequest}
-            />
+          <section className="panel">
+            <FilterBar value={statusFilter} onFilterChange={setStatusFilter} />
+            <RequestList requests={filteredRequests} onDeleteRequest={handleDeleteRequest} />
           </section>
         </div>
       </main>
@@ -60,4 +56,3 @@ function App() {
 }
 
 export default App;
-

@@ -24,9 +24,9 @@ function App() {
 
   // 4. ฟังก์ชันสำหรับกดปุ่ม "เพิ่มคำร้อง"
   function handleAddRequest(requestData) {
-    const newRequest = { 
-      id: `REQ-${String(requests.length + 1).padStart(3, '0')}`, 
-      ...requestData, 
+    const newRequest = {
+      id: `REQ-${String(requests.length + 1).padStart(3, '0')}`,
+      ...requestData,
       status: 'pending' // บังคับให้เป็นรอดำเนินการตอนเริ่มสร้าง
     };
     setRequests((currentRequests) => [...currentRequests, newRequest]);
@@ -43,13 +43,15 @@ function App() {
       <main className="container page-content">
         <SummaryPanel summary={summary} />
         <div className="workspace-grid">
-          {/* ผูกฟังก์ชันเข้ากับหน้าปุ่มกดของแล็บ 4 */}
+          {/* บรรทัดที่ 47: แก้ไขชื่อฟังก์ชันด้านหลังให้เป็น handleAddRequest */}
           <RequestForm onAddRequest={handleAddRequest} />
           <section className="panel">
             <FilterBar value={statusFilter} onFilterChange={setStatusFilter} />
+            {/* บรรทัดที่ 50: ใส่ฟังก์ชัน handleDeleteRequest เข้าไปในปีกกาให้สมบูรณ์ */}
             <RequestList requests={filteredRequests} onDeleteRequest={handleDeleteRequest} />
           </section>
         </div>
+
       </main>
     </>
   );

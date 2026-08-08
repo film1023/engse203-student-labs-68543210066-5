@@ -25,8 +25,9 @@ function App() {
       ...requestData,
       status: 'pending'
     };
-    setRequests((currentRequests) => [...currentRequests, newRequest]);
+    setRequests([newRequest, ...requests]);
   }
+
 
   function handleDeleteRequest(requestId) {
     setRequests((currentRequests) => currentRequests.filter((req) => req.id !== requestId));

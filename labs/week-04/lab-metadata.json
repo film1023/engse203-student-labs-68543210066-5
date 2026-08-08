@@ -5,7 +5,7 @@
   "sourceOrigin": "main",
   "originalRepoUrl": "",
   "originalCommit": "",
-  "pullRequestUrl": "",
+  "pullRequestUrl": "https://github.com/film1023/engse203-student-labs-68543210066-5/pull/4",
   "submissionTag": "lab-04-submission-v1",
   "testStatus": "pass",
   "notes": "React/Vite build output ต้องอยู่ใน publish/ ก่อนสร้าง Pages Hub"

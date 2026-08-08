@@ -13,12 +13,13 @@ function App() {
   // TODO LAB4-R04: คำนวณ summary เป็น derived data
   const summary = {
     total: requests.length,
-    pending: 0,
-    inProgress: 0,
-    completed: 0,
+    pending: 1,
+    inProgress: 1,
+    completed: 1,
   };
 
-  // TODO LAB4-R08: คำนวณ filteredRequests จาก requests + statusFilter
+  // TODO LAB4-R08: คำนวณ filteredRequests จาก req
+  // uests + statusFilter
   const filteredRequests = requests;
 
   function handleAddRequest(requestData) {

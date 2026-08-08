@@ -13,16 +13,16 @@ function App() {
   const summary = {
     total: requests.length,
     pending: requests.filter((req) => req.status === 'pending').length,
-    inProgress: requests.filter((req) => req.status === 'processing').length,
+    inProgress: requests.filter((req) => req.status === 'in-progress').length,
     completed: requests.filter((req) => req.status === 'completed').length,
   };
 
   const filteredRequests = statusFilter === 'all' ? requests : requests.filter((req) => req.status === statusFilter);
 
   function handleAddRequest(requestData) {
-    const newRequest = { 
-      id: `REQ-${String(requests.length + 1).padStart(3, '0')}`, 
-      ...requestData, 
+    const newRequest = {
+      id: `REQ-${String(requests.length + 1).padStart(3, '0')}`,
+      ...requestData,
       status: 'pending'
     };
     setRequests((currentRequests) => [...currentRequests, newRequest]);
